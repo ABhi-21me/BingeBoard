@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en" data-theme="brutalist">
+<head>
+  <meta charset="utf-8" />
+  <title>BingeBoard</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="../icons/icon48.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/icon16.png">
+  <link rel="stylesheet" href="newtab.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+</head>
+<body>
+  <div class="bg-layer"></div>
+
+  <!-- ===== ONBOARDING OVERLAY ===== -->
+  <div id="onboarding" class="onboarding-overlay hidden">
+    <div class="onboarding-card">
+      <!-- Step 1 -->
+      <div id="ob-step1" class="ob-step">
+        <div class="ob-icon">
+          <svg viewBox="0 0 128 128" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="128" height="128" fill="var(--bb-accent)" rx="0"/>
+            <rect x="2" y="2" width="124" height="124" fill="none" stroke="var(--bb-card-border)" stroke-width="4" rx="0"/>
+            <rect x="24" y="24" width="80" height="80" fill="none" stroke="var(--bb-accent-text)" stroke-width="5" rx="0"/>
+            <polygon points="54,38 54,90 94,64" fill="var(--bb-accent-text)"/>
+            <rect x="14" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="32" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="50" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="68" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="86" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="104" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="14" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="32" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="50" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="68" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="86" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+            <rect x="104" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+          </svg>
+        </div>
+        <h2 class="ob-heading">What should we call you?</h2>
+        <p class="ob-sub">We'll personalize your BingeBoard experience.</p>
+        <input id="ob-name" class="input ob-input" placeholder="Your name..." autocomplete="off" />
+        <button class="btn btn-primary ob-btn" id="ob-next">Next →</button>
+      </div>
+      <!-- Step 2 -->
+      <div id="ob-step2" class="ob-step hidden">
+        <div class="ob-icon">🎨</div>
+        <h2 class="ob-heading">Pick your vibe</h2>
+        <p class="ob-sub">Choose the theme that feels right.</p>
+        <div class="ob-themes">
+          <div class="ob-theme-card active" data-ob-theme="light">
+            <div class="ob-theme-dots">
+              <span style="background:#f5f0e8;border:2px solid #000"></span>
+              <span style="background:#ff2d00"></span>
+              <span style="background:#ffffff;border:2px solid #000"></span>
+            </div>
+            <div class="ob-theme-name">BRUTALIST LIGHT</div>
+          </div>
+          <div class="ob-theme-card" data-ob-theme="dark">
+            <div class="ob-theme-dots">
+              <span style="background:#111111"></span>
+              <span style="background:#ff4d2e"></span>
+              <span style="background:#1c1c1c;border:2px solid #f0ebe0"></span>
+            </div>
+            <div class="ob-theme-name">BRUTALIST DARK</div>
+          </div>
+        </div>
+        <button class="btn btn-primary ob-btn" id="ob-finish">Let's Go →</button>
+        <button class="ob-back-btn" id="ob-back">← Back</button>
+      </div>
+      <!-- Step indicator -->
+      <div class="ob-steps-indicator">
+        <span class="ob-dot active" id="ob-dot1"></span>
+        <span class="ob-dot" id="ob-dot2"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GLOBAL SEARCH BAR ===== -->
+  <div id="globalSearchBar" class="global-search-bar hidden">
+    <div class="global-search-inner">
+      <span class="global-search-icon">🔍</span>
+      <input id="globalSearchInput" class="global-search-input" placeholder="Search watchlist and bookmarks…" autocomplete="off" />
+      <button class="global-search-close" id="globalSearchClose">✕</button>
+    </div>
+    <div id="globalSearchResults" class="global-search-results hidden"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 128 128" width="30" height="30" xmlns="http://www.w3.org/2000/svg" style="display:block">
+          <rect width="128" height="128" fill="var(--bb-accent)" rx="0"/>
+          <rect x="2" y="2" width="124" height="124" fill="none" stroke="var(--bb-card-border)" stroke-width="4" rx="0"/>
+          <rect x="24" y="24" width="80" height="80" fill="none" stroke="var(--bb-accent-text)" stroke-width="5" rx="0"/>
+          <polygon points="54,38 54,90 94,64" fill="var(--bb-accent-text)"/>
+          <rect x="14" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="32" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="50" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="68" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="86" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="104" y="10" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="14" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="32" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="50" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="68" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="86" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+          <rect x="104" y="110" width="8" height="8" fill="var(--bb-card-border)"/>
+        </svg>
+      </div>
+      <div class="brand-text">BingeBoard</div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-tab="home">Home</button>
+      <button class="nav-btn" data-tab="watchlist">Watchlist</button>
+      <button class="nav-btn" data-tab="bookmarks">Bookmarks</button>
+      <button class="nav-btn" data-tab="stats">Stats</button>
+    </nav>
+    <div class="top-right">
+      <button class="search-trigger-btn" id="searchTriggerBtn" title="Search">🔍</button>
+      <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle light/dark mode">
+        <span class="sun-icon">☀️</span>
+        <span class="moon-icon">🌙</span>
+      </button>
+      <div class="greeting-clock" id="greetingClock">
+        <div class="greeting-text" id="greetingText"></div>
+        <div class="clock" id="clock">--:--</div>
+      </div>
+      <div class="streak-badge" id="streakBadge" title="Current streak">
+        <span class="flame">🔥</span><span id="streakNum">0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- HOME -->
+    <section class="tab" data-tab-content="home">
+      <!-- Resume Card (hidden until lastVisited set) -->
+      <div class="card resume-card hidden" id="resumeCard">
+        <div class="resume-inner">
+          <img class="resume-favicon" id="resumeFavicon" src="" alt="" />
+          <div class="resume-info">
+            <div class="resume-name" id="resumeName"></div>
+            <div class="resume-time" id="resumeTime"></div>
+          </div>
+          <button class="btn btn-primary resume-btn" id="resumeBtn">▶ Continue</button>
+        </div>
+      </div>
+
+      <!-- Continue Watching Section -->
+      <div class="cw-section" id="cwSection">
+        <div class="cw-header">
+          <h2 class="cw-title">CONTINUE WATCHING</h2>
+        </div>
+        <div class="cw-list" id="cwList"></div>
+      </div>
+
+      <div class="grid-home">
+        <div class="card hero-card" id="heroCard">
+          <div class="hero-tag">TODAY'S PICK</div>
+          <h1 class="hero-title" id="pickTitle">Pick something to watch</h1>
+          <div class="hero-meta">
+            <span id="pickGenre">—</span>
+            <span class="dot">•</span>
+            <span id="pickPlatform">—</span>
+            <span class="dot">•</span>
+            <span id="pickRating">—</span>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="markWatching">Start watching</button>
+            <button class="btn btn-ghost" id="shufflePick">Shuffle</button>
+          </div>
+        </div>
+
+        <div class="card stat-card">
+          <div class="stat-label">HOURS THIS WEEK</div>
+          <div class="stat-num" id="homeHours">0</div>
+          <div class="stat-sub">watched</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label">COMPLETED</div>
+          <div class="stat-num" id="homeCompleted">0</div>
+          <div class="stat-sub">titles</div>
+        </div>
+
+        <div class="card stat-card add-watchlist-card" style="display:flex;flex-direction:column;justify-content:space-between;min-height:140px;">
+          <div class="stat-label">ADD TO WATCHLIST</div>
+          <input type="text" id="newWatchlistItem" class="input" placeholder="Title (e.g. Inception)" style="width:100%;margin:8px 0;font-size:13px;padding:6px 10px;" />
+          <button class="btn btn-primary" id="addNewWatchlistBtn" style="width:100%;font-size:11px;padding:6px 10px;">+ Add Title</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- WATCHLIST -->
+    <section class="tab hidden" data-tab-content="watchlist">
+      <div class="wl-add-container" style="display: flex; gap: 8px; margin-bottom: 20px;">
+        <input type="text" id="wlAddInput" placeholder="Add a movie or show..." class="input" style="flex: 1;" />
+        <button class="btn btn-primary" id="wlAddBtn" style="padding: 0 16px; font-weight: bold; font-size: 16px;">+</button>
+      </div>
+      <div class="bk-header">
+        <h2 class="bk-title">Watchlist</h2>
+        <div class="bk-actions">
+          <input type="text" id="wlSearch" placeholder="Search titles…" class="input" />
+        </div>
+      </div>
+      <div class="filters" style="margin: 12px 0;">
+        <div class="filter-tabs" id="wlFilterTabs" style="display: flex; gap: 8px;">
+          <button class="chip active" data-wl-filter="all">All</button>
+          <button class="chip" data-wl-filter="want">Want to Watch</button>
+          <button class="chip" data-wl-filter="completed">Completed</button>
+        </div>
+      </div>
+      <div class="wl-grid-list" id="wlGrid"></div>
+    </section>
+
+    <!-- BOOKMARKS -->
+    <section class="tab hidden" data-tab-content="bookmarks">
+      <div class="bk-header">
+        <h2 class="bk-title">Bookmarks</h2>
+        <div class="bk-actions">
+          <input type="text" id="bkSearch" placeholder="Search bookmarks…" class="input" />
+          <button class="btn btn-primary" id="addBookmark">+ Add</button>
+        </div>
+      </div>
+      <div class="bk-grid" id="bkGrid"></div>
+    </section>
+
+    <!-- STATS -->
+    <section class="tab hidden" data-tab-content="stats">
+      <div id="statsEmptyState" class="empty-state hidden">
+        <div class="empty-state-icon">📊</div>
+        <div class="empty-state-heading">Start watching to see your stats</div>
+        <div class="empty-state-sub">Your hours, streaks and genres will appear here automatically</div>
+      </div>
+      <div id="statsContent">
+        <div class="grid-stats">
+          <div class="card stat-card"><div class="stat-label">TOTAL HOURS</div><div class="stat-num" id="sTotalHours">0</div></div>
+          <div class="card stat-card"><div class="stat-label">COMPLETED</div><div class="stat-num" id="sCompleted">0</div></div>
+          <div class="card stat-card"><div class="stat-label">WATCHING</div><div class="stat-num" id="sWatching">0</div></div>
+          <div class="card stat-card"><div class="stat-label">CURRENT STREAK</div><div class="stat-num" id="sStreak">0</div></div>
+          <div class="card stat-card"><div class="stat-label">LONGEST STREAK</div><div class="stat-num" id="sLongest">0</div></div>
+        </div>
+      </div>
+      <div class="section-head" style="display:flex; align-items:center; gap:12px; margin-top:24px;">
+        <h2>BADGES</h2>
+        <button class="btn btn-ghost" id="badgesHelpBtn" style="padding: 4px 8px; font-size: 11px; font-weight:700;">? How to earn</button>
+      </div>
+      <div class="badges-grid" id="badgesGrid"></div>
+    </section>
+  </main>
+
+  <!-- Badge Info Modal -->
+  <div class="modal hidden" id="badgesHelpModal">
+    <div class="modal-card">
+      <h3 style="margin-bottom: 12px; font-size: 18px; font-weight: 700; text-transform: uppercase;">How to earn badges</h3>
+      <p style="font-size: 13px; line-height: 1.5; color: var(--bb-muted); margin-bottom: 8px;">Badges are earned automatically as you watch.</p>
+      <p style="font-size: 13px; line-height: 1.5; color: var(--bb-muted); margin-bottom: 8px;">Each badge has 3 levels: Bronze, Silver, Gold.</p>
+      <p style="font-size: 13px; line-height: 1.5; color: var(--bb-muted); margin-bottom: 8px;">Progress is tracked from your watch history.</p>
+      <p style="font-size: 13px; line-height: 1.5; color: var(--bb-muted); margin-bottom: 16px;">Keep watching to level up.</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="badgesHelpCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- macOS-style Dock -->
+  <div class="dock" id="dock">
+    <div class="dock-empty-text hidden" id="dockEmptyText">Click + to add your first bookmark</div>
+    <div class="dock-inner" id="dockInner"></div>
+  </div>
+
+  <!-- Dock quick-add/edit popup -->
+  <div class="dock-popup hidden" id="dockPopup">
+    <div class="dock-popup-arrow"></div>
+    <p class="dock-popup-label" id="dockPopupLabel">Add to Dock</p>
+    <input id="dockPopupTitle" class="dock-popup-input" placeholder="Name (e.g. Netflix)" />
+    <input id="dockPopupUrl"   class="dock-popup-input" placeholder="https://…" />
+    <div class="dock-popup-fetching hidden" id="dockPopupFetching">⏳ Fetching title…</div>
+    <div class="dock-popup-actions">
+      <button class="dock-popup-btn ghost" id="dockPopupCancel">Cancel</button>
+      <button class="dock-popup-btn primary" id="dockPopupSave">Save</button>
+    </div>
+  </div>
+
+  <!-- Custom Context Menu -->
+  <div class="dock-context-menu hidden" id="dockContextMenu">
+    <div class="dock-context-item" id="ctxEdit">Edit</div>
+    <div class="dock-context-item" id="ctxRemove">Remove</div>
+  </div>
+
+  <!-- Bookmark modal -->
+  <div class="modal hidden" id="bkModal">
+    <div class="modal-card">
+      <h3 id="bkModalTitle">Add Bookmark</h3>
+      <label class="muted small">Name</label>
+      <input id="bkName" class="input" placeholder="Netflix, YouTube…" />
+      <label class="muted small">URL</label>
+      <input id="bkUrl" class="input" placeholder="https://…" />
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="bkDelete" style="display:none">Delete</button>
+        <button class="btn btn-ghost" id="bkCancel">Cancel</button>
+        <button class="btn btn-primary" id="bkSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="newtab.js"></script>
+</body>
+</html>
